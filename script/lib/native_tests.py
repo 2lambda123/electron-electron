@@ -5,6 +5,7 @@ import subprocess
 import sys
 
 from lib.util import SRC_DIR
+import yaml
 
 PYYAML_LIB_DIR = os.path.join(SRC_DIR, 'third_party', 'pyyaml', 'lib')
 sys.path.append(PYYAML_LIB_DIR)
@@ -135,7 +136,7 @@ class TestsList():
   @staticmethod
   def __get_config_data(config_path):
     with open(config_path, 'r') as stream:
-      return yaml.load(stream)
+      return yaml.load(stream, Loader=yaml.SafeLoader)
 
   @staticmethod
   def __expand_shorthand(value):
