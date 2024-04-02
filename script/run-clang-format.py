@@ -136,7 +136,7 @@ def run_clang_format_diff(args, file_name):
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             universal_newlines=True,
-            shell=True)
+            shell=False)
     except OSError as exc:
         # pylint: disable=W0707
         raise DiffError(
@@ -294,8 +294,7 @@ def main():
             "git diff --name-only --cached",
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
-            shell=True,
-            universal_newlines=True
+            shell=False, universal_newlines=True
         ).communicate()[0].split("\n")
         for line in stdout:
             file_name = line.rstrip()
