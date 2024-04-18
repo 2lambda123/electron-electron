@@ -24,6 +24,7 @@ import tempfile
 
 from functools import partial
 from lib.util import get_buildtools_executable
+from security import safe_command
 
 DEFAULT_EXTENSIONS = 'c,h,C,H,cpp,hpp,cc,hh,c++,h++,cxx,hxx,mm'
 DEFAULT_CLANG_FORMAT_IGNORE = '.clang-format-ignore'
@@ -131,8 +132,7 @@ def run_clang_format_diff(args, file_name):
         print(" ".join(invocation))
         return [], []
     try:
-        proc = subprocess.Popen(
-            ' '.join(invocation),
+        proc = safe_command.run(subprocess.Popen, ' '.join(invocation),
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             universal_newlines=True,

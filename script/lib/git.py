@@ -12,6 +12,7 @@ import posixpath
 import re
 import subprocess
 import sys
+from security import safe_command
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(SCRIPT_DIR)
@@ -72,8 +73,7 @@ def am(repo, patch_data, threeway=False, directory=None, exclude=None,
     root_args += ['-c', 'user.email=' + committer_email]
   root_args += ['-c', 'commit.gpgsign=false']
   command = ['git'] + root_args + ['am'] + args
-  proc = subprocess.Popen(
-      command,
+  proc = safe_command.run(subprocess.Popen, command,
       stdin=subprocess.PIPE)
   proc.communicate(patch_data.encode('utf-8'))
   if proc.returncode != 0:

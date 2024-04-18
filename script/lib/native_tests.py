@@ -5,6 +5,7 @@ import subprocess
 import sys
 
 from lib.util import SRC_DIR
+from security import safe_command
 
 PYYAML_LIB_DIR = os.path.join(SRC_DIR, 'third_party', 'pyyaml', 'lib')
 sys.path.append(PYYAML_LIB_DIR)
@@ -252,7 +253,7 @@ class TestBinary():
 
     returncode = 0
     try:
-      returncode = subprocess.call(args, stdout=stdout, stderr=stderr)
+      returncode = safe_command.run(subprocess.call, args, stdout=stdout, stderr=stderr)
     except Exception as exception:
       if Verbosity.ge(verbosity, Verbosity.ERRORS):
         print("An error occurred while running '{}':".format(self.binary_path),

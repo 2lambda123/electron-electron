@@ -10,6 +10,7 @@ import shutil
 import subprocess
 from struct import Struct
 import sys
+from security import safe_command
 
 sys.path.append(
   os.path.abspath(os.path.dirname(os.path.abspath(__file__)) + "/../.."))
@@ -362,7 +363,7 @@ def upload_io_to_github(release, filename, filepath, version):
       (filename))
   script_path = os.path.join(
     ELECTRON_DIR, 'script', 'release', 'uploaders', 'upload-to-github.ts')
-  upload_process = subprocess.Popen([TS_NODE, script_path, filepath, filename, 
+  upload_process = safe_command.run(subprocess.Popen, [TS_NODE, script_path, filepath, filename, 
           str(release['id']), version], stdout=subprocess.PIPE, 
           stderr=subprocess.STDOUT)
   if is_verbose_mode():

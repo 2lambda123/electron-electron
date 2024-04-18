@@ -5,6 +5,7 @@ import os
 import re
 import subprocess
 import sys
+from security import safe_command
 
 SOURCE_ROOT = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
@@ -21,7 +22,7 @@ def main():
 
   chromedriver_path = os.path.join(
     args.source_root, args.build_dir, chromedriver_name[sys.platform])
-  proc = subprocess.Popen([chromedriver_path],
+  proc = safe_command.run(subprocess.Popen, [chromedriver_path],
                           stdout=subprocess.PIPE, universal_newlines=True)
   try:
     output = proc.stdout.readline()
